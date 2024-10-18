@@ -9,7 +9,7 @@ const listaCuentas = document.getElementById("listaCuentas");
 
 // Cuentas del backend
 async function obtenerCuentas() {
-  const res = await fetch("https://gestion-cuentas-agc-backend.vercel.app/cuentas");
+  const res = await fetch("https://gestion-cuentas-agc-backend.onrender.com/cuentas");
   const cuentas = await res.json();
 
   listaCuentas.innerHTML = "";
@@ -50,7 +50,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
     comentarios: document.getElementById("comentarios").value,
   };
 
-  const res = await fetch("https://gestion-cuentas-agc-backend.vercel.app/cuentas", {
+  const res = await fetch("https://gestion-cuentas-agc-backend.onrender.com/cuentas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,9 +70,11 @@ formularioCuenta.addEventListener("submit", async (e) => {
 // ELIMINAR CUENTA
 async function eliminarCuenta(id) {
   if (confirm("¿Seguro que deseas eliminar esta cuenta?")) {
-    const res = await fetch(`https://gestion-cuentas-agc-backend.vercel.app/cuentas/${id}`, {
+    const res = await fetch(`https://gestion-cuentas-agc-backend.onrender.com/cuentas/${id}`, {
       method: "DELETE",
     });
+
+    console.log('Estado de la respuesta:', res.status);
 
     if (res.ok) {
       mostrarAlerta("success", "Cuenta eliminada correctamente");
@@ -87,7 +89,7 @@ async function eliminarCuenta(id) {
 // EDITAR REGISTROS
 async function editarCuenta(id) {
   try {
-    const response = await fetch(`https://gestion-cuentas-agc-backend.vercel.app/cuentas${id}`);
+    const response = await fetch(`https://gestion-cuentas-agc-backend.onrender.com/cuentas/${id}`);
 
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
@@ -143,7 +145,7 @@ document
 
     try {
       const res = await fetch(
-        `https://gestion-cuentas-agc-backend.vercel.app/cuentas/${window.cuentaId}`,
+        `https://gestion-cuentas-agc-backend.onrender.com/cuentas/${window.cuentaId}`,
         {
           method: "PUT",
           headers: {
@@ -212,7 +214,7 @@ document.getElementById("buscarBtn").addEventListener("click", async () => {
 
   try {
     const res = await fetch(
-      `https://gestion-cuentas-agc-backend.vercel.app/cuentas?nombreApellido=${primerasTresLetras}`
+      `https://gestion-cuentas-agc-backend.onrender.com/cuentas?nombreApellido=${primerasTresLetras}`
     );
     if (!res.ok) {
       throw new Error("Error al buscar cuentas");
