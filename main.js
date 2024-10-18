@@ -9,7 +9,7 @@ const listaCuentas = document.getElementById("listaCuentas");
 
 // Cuentas del backend
 async function obtenerCuentas() {
-  const res = await fetch("http://localhost:5000/cuentas");
+  const res = await fetch("https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas");
   const cuentas = await res.json();
 
   listaCuentas.innerHTML = "";
@@ -50,7 +50,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
     comentarios: document.getElementById("comentarios").value,
   };
 
-  const res = await fetch("http://localhost:5000/cuentas", {
+  const res = await fetch("https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +70,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
 // ELIMINAR CUENTA
 async function eliminarCuenta(id) {
   if (confirm("¿Seguro que deseas eliminar esta cuenta?")) {
-    const res = await fetch(`http://localhost:5000/cuentas/${id}`, {
+    const res = await fetch(`https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas/${id}`, {
       method: "DELETE",
     });
 
@@ -87,7 +87,7 @@ async function eliminarCuenta(id) {
 // EDITAR REGISTROS
 async function editarCuenta(id) {
   try {
-    const response = await fetch(`http://localhost:5000/cuentas/${id}`);
+    const response = await fetch(`https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas${id}`);
 
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
@@ -143,7 +143,7 @@ document
 
     try {
       const res = await fetch(
-        `http://localhost:5000/cuentas/${window.cuentaId}`,
+        `https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas/${window.cuentaId}`,
         {
           method: "PUT",
           headers: {
@@ -212,7 +212,7 @@ document.getElementById("buscarBtn").addEventListener("click", async () => {
 
   try {
     const res = await fetch(
-      `http://localhost:5000/cuentas?nombreApellido=${primerasTresLetras}`
+      `https://gestion-cuentas-agc-backend-ibl2y9e20-cecilia-urrutias-projects.vercel.app/cuentas?nombreApellido=${primerasTresLetras}`
     );
     if (!res.ok) {
       throw new Error("Error al buscar cuentas");
