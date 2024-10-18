@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Cuentas ABM</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+  
+</head>
+<body>
+    <header class="mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- <div class="logo" style="width: 100px;">
+                Espacio para el logo 
+                <img src="ruta-del-logo.png" alt="Logo" style="width: 100%; height: auto;" />
+            </div> -->
+            <h2 class="text-center">Gestión de Cuentas Redes AGC Prensa</h2>
+            
+        </div>
+    </header>
+
+    <div class="container mt-5">
+      
+      <h3> Agregar nueva cuenta</h3>
+      <form id="formularioCuenta" class="mb-4">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <label for="nombreApellido" class="form-label">Nombre y Apellido</label>
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="nombreApellido"
+                    required
+                />
+            </div>
+            <div class="col-12 mb-2">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="descripcion"
+                />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 mb-2">
+                <label for="cuentaX" class="form-label">Cuenta X</label>
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="cuentaX"
+                />
+            </div>
+            <div class="col-4 mb-2">
+                <label for="cuentaInstagram" class="form-label">Instagram</label>
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="cuentaInstagram"
+                />
+            </div>
+            <div class="col-4 mb-2">
+                <label for="cuentaLinkedIn" class="form-label">LinkedIn</label>
+                <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    id="cuentaLinkedIn"
+                />
+            </div>
+        </div>
+        <div class="mb-2">
+            <label for="comentarios" class="form-label">Comentarios</label>
+            <textarea class="form-control form-control-sm" id="comentarios" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success btn-sm">Agregar Cuenta</button>
+    </form>
+    
+
+        <div class="mb-4">
+          <input type="text" id="buscarNombreApellido" class="form-control" placeholder="Buscar por nombre y apellido" />
+          <button id="buscarBtn" class="btn btn-primary mt-2">Buscar</button>
+      </div>
+
+      <!-- Alerta de éxito -->
+      <div
+      class="alert alert-success alert-dismissible fade show d-none"
+      id="alertSuccess"
+      role="alert"
+  >
+       La cuenta se ha modificado correctamente.
+      <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+      ></button>
+  </div>
+
+  
+
+  <!-- Alerta de error -->
+  <div
+      class="alert alert-danger alert-dismissible fade show d-none"
+      id="alertError"
+      role="alert"
+  >
+      <strong>Error!</strong> Ocurrió un problema al modificar la cuenta.
+      <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+      ></button>
+  </div>
+
+
+        <!-- Tabla con las cuentas -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre y Apellido</th>
+                    <th>Descripción</th>
+                    <th>Cuenta X</th>
+                    <th>Instagram</th>
+                    <th>LinkedIn</th>
+                    <th>Comentarios</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="listaCuentas">
+                <!-- Filas aca -->
+            </tbody>
+        </table>
+    </div>
+
+    
+    <!-- Modal para editar cuenta -->
+<div
+class="modal fade"
+id="editarModal"
+tabindex="-1"
+aria-labelledby="editarModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="editarModalLabel">Modificar Cuenta</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form id="formularioEditarCuenta">
+        <div class="mb-3">
+          <label for="nombreApellidoModal" class="form-label">Nombre y Apellido</label>
+          <input type="text" class="form-control" id="nombreApellidoModal" required />
+        </div>
+        <div class="mb-3">
+          <label for="descripcionModal" class="form-label">Descripción</label>
+          <input type="text" class="form-control" id="descripcionModal" />
+        </div>
+        <div class="mb-3">
+          <label for="cuentaXModal" class="form-label">Cuenta X</label>
+          <input type="text" class="form-control" id="cuentaXModal" />
+        </div>
+        <div class="mb-3">
+          <label for="cuentaInstagramModal" class="form-label">Instagram</label>
+          <input type="text" class="form-control" id="cuentaInstagramModal" />
+        </div>
+        <div class="mb-3">
+          <label for="cuentaLinkedInModal" class="form-label">LinkedIn</label>
+          <input type="text" class="form-control" id="cuentaLinkedInModal" />
+        </div>
+        <div class="mb-3">
+          <label for="comentariosModal" class="form-label">Comentarios</label>
+          <textarea class="form-control" id="comentariosModal" rows="3"></textarea>
+        </div>
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="guardarCambiosBtn"
+      >
+        Guardar cambios
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+    <footer>
+        <div class="container">
+            <p class="mb-0">© 2024 Gestión de Cuentas AGC. Desarrollo Cecilia Urrutia.</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
