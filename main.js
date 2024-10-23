@@ -1,3 +1,5 @@
+// main.js
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Funciones globales
@@ -9,28 +11,36 @@ const listaCuentas = document.getElementById("listaCuentas");
 
 // Cuentas del backend
 async function obtenerCuentas() {
-  const res = await fetch("https://gestion-cuentas-agc-backend.onrender.com/cuentas");
-  const cuentas = await res.json();
+  try {
+    const res = await fetch("https://gestion-redes-back.vercel.app/accounts");
+    const respuesta = await res.json();
 
-  listaCuentas.innerHTML = "";
+    // Accede al array de cuentas
+    const cuentas = respuesta.data || []; // Si no hay cuentas, asigna un array vacío
 
-  // Agregar cada cuenta a la tabla
-  cuentas.forEach((cuenta) => {
-    listaCuentas.innerHTML += `
-      <tr>
-          <td>${cuenta.nombreApellido}</td>
-          <td>${cuenta.descripcion}</td>
-          <td>${cuenta.cuentaX}</td>
-          <td>${cuenta.cuentaInstagram}</td>
-          <td>${cuenta.cuentaLinkedIn}</td>
-          <td>${cuenta.comentarios}</td>
-          <td>
-            <button class="btn btn-primary btn-sm" onclick="editarCuenta('${cuenta._id}')">Modificar</button>
-            <button class="btn btn-danger btn-sm" onclick="eliminarCuenta('${cuenta._id}')">Eliminar</button>
-          </td>
-      </tr>
-    `;
-  });
+    listaCuentas.innerHTML = "";
+
+    // Agregar cada cuenta a la tabla
+    cuentas.forEach((cuenta) => {
+      listaCuentas.innerHTML += `
+        <tr>
+            <td>${cuenta.nombreApellido}</td>
+            <td>${cuenta.descripcion || "N/A"}</td>
+            <td>${cuenta.cuentax || "N/A"}</td>
+            <td>${cuenta.instagram || "N/A"}</td>
+            <td>${cuenta.linkedin || "N/A"}</td>
+            <td>${cuenta.comentarios || "N/A"}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" onclick="editarCuenta('${cuenta._id}')">Modificar</button>
+              <button class="btn btn-danger btn-sm" onclick="eliminarCuenta('${cuenta._id}')">Eliminar</button>
+            </td>
+        </tr>
+      `;
+    });
+  } catch (error) {
+    console.error("Error al obtener cuentas:", error);
+    mostrarAlerta("error", "No se pudo obtener las cuentas.");
+  }
 }
 
 obtenerCuentas();
@@ -45,12 +55,12 @@ formularioCuenta.addEventListener("submit", async (e) => {
     nombreApellido: document.getElementById("nombreApellido").value,
     descripcion: document.getElementById("descripcion").value,
     cuentaX: document.getElementById("cuentaX").value,
-    cuentaInstagram: document.getElementById("cuentaInstagram").value,
-    cuentaLinkedIn: document.getElementById("cuentaLinkedIn").value,
+    instagram: document.getElementById("cuentaInstagram").value,
+    linkedin: document.getElementById("cuentaLinkedIn").value,
     comentarios: document.getElementById("comentarios").value,
   };
 
-  const res = await fetch("https://gestion-cuentas-agc-backend.onrender.com/cuentas", {
+  const res = await fetch("https://gestion-redes-back.vercel.app/accounts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +71,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
   if (res.ok) {
     formularioCuenta.reset();
     mostrarAlerta("success", "Cuenta agregada correctamente");
-    obtenerCuentas(); 
+    obtenerCuentas();
   } else {
     mostrarAlerta("error", "Error al agregar la cuenta");
   }
@@ -70,7 +80,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
 // ELIMINAR CUENTA
 async function eliminarCuenta(id) {
   if (confirm("¿Seguro que deseas eliminar esta cuenta?")) {
-    const res = await fetch(`https://gestion-cuentas-agc-backend.onrender.com/cuentas/${id}`, {
+    const res = await fetch(`https://gestion-redes-back.vercel.app/accounts/${id}`, {
       method: "DELETE",
     });
 
@@ -78,7 +88,6 @@ async function eliminarCuenta(id) {
 
     if (res.ok) {
       mostrarAlerta("success", "Cuenta eliminada correctamente");
-      // Actualizar la tabla
       obtenerCuentas();
     } else {
       mostrarAlerta("error", "Error al eliminar la cuenta");
@@ -89,7 +98,7 @@ async function eliminarCuenta(id) {
 // EDITAR REGISTROS
 async function editarCuenta(id) {
   try {
-    const response = await fetch(`https://gestion-cuentas-agc-backend.onrender.com/cuentas/${id}`);
+    const response = await fetch(`https://gestion-redes-back.vercel.app/accounts/${id}`);
 
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
@@ -103,9 +112,9 @@ async function editarCuenta(id) {
     document.getElementById("descripcionModal").value = cuenta.descripcion;
     document.getElementById("cuentaXModal").value = cuenta.cuentaX;
     document.getElementById("cuentaInstagramModal").value =
-      cuenta.cuentaInstagram;
+      cuenta.instagram;
     document.getElementById("cuentaLinkedInModal").value =
-      cuenta.cuentaLinkedIn;
+      cuenta.linkedin;
     document.getElementById("comentariosModal").value = cuenta.comentarios;
 
     // Guardar el ID de la cuenta a modificar
@@ -131,8 +140,8 @@ document
       nombreApellido: document.getElementById("nombreApellidoModal").value,
       descripcion: document.getElementById("descripcionModal").value,
       cuentaX: document.getElementById("cuentaXModal").value,
-      cuentaInstagram: document.getElementById("cuentaInstagramModal").value,
-      cuentaLinkedIn: document.getElementById("cuentaLinkedInModal").value,
+      instagram: document.getElementById("cuentaInstagramModal").value,
+      linkedin: document.getElementById("cuentaLinkedInModal").value,
       comentarios: document.getElementById("comentariosModal").value,
     };
 
@@ -145,7 +154,7 @@ document
 
     try {
       const res = await fetch(
-        `https://gestion-cuentas-agc-backend.onrender.com/cuentas/${window.cuentaId}`,
+        `https://gestion-redes-back.vercel.app/accounts/${window.cuentaId}`,
         {
           method: "PUT",
           headers: {
@@ -168,7 +177,7 @@ document
         mostrarAlerta(
           "error",
           `Error al actualizar la cuenta: ${
-            errorData.error || "Error desconocido"
+            errorData.message || "Error desconocido"
           }`
         );
       }
@@ -191,14 +200,7 @@ function mostrarAlerta(tipo, mensaje) {
   }, 3000);
 }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  obtenerCuentas();
-});
-
-
 // busqueda por nom y apelido
-
 document.getElementById("buscarBtn").addEventListener("click", async () => {
   const cuentaBuscada = document
     .getElementById("buscarNombreApellido")
@@ -214,12 +216,13 @@ document.getElementById("buscarBtn").addEventListener("click", async () => {
 
   try {
     const res = await fetch(
-      `https://gestion-cuentas-agc-backend.onrender.com/cuentas?nombreApellido=${primerasTresLetras}`
+      `https://gestion-redes-back.vercel.app/accounts?nombreApellido=${primerasTresLetras}`
     );
     if (!res.ok) {
       throw new Error("Error al buscar cuentas");
     }
-    const cuentas = await res.json();
+    const respuesta = await res.json();
+    const cuentas = respuesta.data || []; // Acceder al array de cuentas
 
     if (cuentas.length === 0) {
       mostrarAlerta("error", "No se encontraron cuentas con ese nombre o apellido.");
@@ -233,34 +236,27 @@ document.getElementById("buscarBtn").addEventListener("click", async () => {
   }
 });
 
-
-
-//mostrar cuentas en la busqueda
+// Mostrar cuentas en la búsqueda
 function mostrarCuentas(cuentas) {
   const listaCuentas = document.getElementById("listaCuentas");
   listaCuentas.innerHTML = "";  
 
   if (cuentas.length > 0) {
     cuentas.forEach((cuenta) => {
-      const row = document.createElement("tr");
-
-      row.innerHTML = `
-            <td>${cuenta.nombreApellido}</td>
-            <td>${cuenta.descripcion || "N/A"}</td>
-            <td>${cuenta.cuentaX || "N/A"}</td>
-            <td>${cuenta.cuentaInstagram || "N/A"}</td>
-            <td>${cuenta.cuentaLinkedIn || "N/A"}</td>
-            <td>${cuenta.comentarios || "N/A"}</td>
-            <td>
-                <button class="btn btn-primary" onclick="editarCuenta('${cuenta._id}')">Editar</button>
-                <button class="btn btn-danger" onclick="eliminarCuenta('${cuenta._id}')">Eliminar</button>
-            </td>
-        `;
-      listaCuentas.appendChild(row);  
+      listaCuentas.innerHTML += `
+        <tr>
+          <td>${cuenta.nombreApellido}</td>
+          <td>${cuenta.descripcion || "N/A"}</td>
+          <td>${cuenta.cuentaX || "N/A"}</td>
+          <td>${cuenta.instagram || "N/A"}</td>
+          <td>${cuenta.linkedin || "N/A"}</td>
+          <td>${cuenta.comentarios || "N/A"}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" onclick="editarCuenta('${cuenta._id}')">Modificar</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminarCuenta('${cuenta._id}')">Eliminar</button>
+          </td>
+        </tr>
+      `;
     });
-  } else {
-    mostrarAlerta("error", "No se encontraron cuentas con ese nombre o apellido.");
   }
 }
-
-
