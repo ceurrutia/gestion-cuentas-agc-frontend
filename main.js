@@ -54,7 +54,7 @@ formularioCuenta.addEventListener("submit", async (e) => {
   const nuevaCuenta = {
     nombreApellido: document.getElementById("nombreApellido").value,
     descripcion: document.getElementById("descripcion").value,
-    cuentaX: document.getElementById("cuentaX").value,
+    cuentax: document.getElementById("cuentaX").value,
     instagram: document.getElementById("cuentaInstagram").value,
     linkedin: document.getElementById("cuentaLinkedIn").value,
     comentarios: document.getElementById("comentarios").value,
@@ -110,7 +110,7 @@ async function editarCuenta(id) {
     document.getElementById("nombreApellidoModal").value =
       cuenta.nombreApellido;
     document.getElementById("descripcionModal").value = cuenta.descripcion;
-    document.getElementById("cuentaXModal").value = cuenta.cuentaX;
+    document.getElementById("cuentaXModal").value = cuenta.cuentax;
     document.getElementById("cuentaInstagramModal").value =
       cuenta.instagram;
     document.getElementById("cuentaLinkedInModal").value =
@@ -139,7 +139,7 @@ document
     const cuentaActualizada = {
       nombreApellido: document.getElementById("nombreApellidoModal").value,
       descripcion: document.getElementById("descripcionModal").value,
-      cuentaX: document.getElementById("cuentaXModal").value,
+      cuentax: document.getElementById("cuentaXModal").value,
       instagram: document.getElementById("cuentaInstagramModal").value,
       linkedin: document.getElementById("cuentaLinkedInModal").value,
       comentarios: document.getElementById("comentariosModal").value,
@@ -247,7 +247,7 @@ function mostrarCuentas(cuentas) {
         <tr>
           <td>${cuenta.nombreApellido}</td>
           <td>${cuenta.descripcion || "N/A"}</td>
-          <td>${cuenta.cuentaX || "N/A"}</td>
+          <td>${cuenta.cuentax || "N/A"}</td>
           <td>${cuenta.instagram || "N/A"}</td>
           <td>${cuenta.linkedin || "N/A"}</td>
           <td>${cuenta.comentarios || "N/A"}</td>
